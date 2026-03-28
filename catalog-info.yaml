@@ -1,17 +1,61 @@
+# 1. THE LOGICAL GROUPING (The "Parent")
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ai-platform
+  description: "Comprehensive AI infrastructure for model serving and RAG."
+spec:
+  owner: infra-team
+---
+# 2. THE FRONTEND (OpenWebUI)
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ai-gateway-service
-  description: "Core gateway for the university AI platform, handling RAG and model routing."
+  name: ai-frontend
+  description: "The primary UI for interacting with LLMs."
   annotations:
-    # Links to your existing infrastructure tools
-    backstage.io/managed-by-location: url:https://github.com/your-org/ai-platform/blob/main/catalog-info.yaml
-    github.com/project-slug: your-org/ai-gateway
-    argocd/app-name: ai-gateway-prod
+    argocd/app-name: ai-frontend-prod
+spec:
+  type: website
+  lifecycle: production
+  owner: infra-team
+  system: ai-platform
+  consumesApis:
+    - ai-inference-api
+---
+# 3. THE BACKEND (Inference/RAG Service)
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-inference-backend
+  description: "Python-based API handling vector search and LLM calls."
 spec:
   type: service
-  lifecycle: experimental
+  lifecycle: production
   owner: infra-team
-  system: ai-platform-core
+  system: ai-platform
   providesApis:
     - ai-inference-api
+  dependsOn:
+    - resource:vector-db
+---
+# 4. THE DATABASE (PostgreSQL Resource)
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: vector-db
+  description: "PostgreSQL instance with pgvector for document storage."
+spec:
+  type: database
+  owner: infra-team
+  system: ai-platform
+---
+# 5. THE OWNERSHIP TEAM
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: infra-team
+  description: "Platform Engineering and Infrastructure Team."
+spec:
+  type: team
+  children: []
