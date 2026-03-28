@@ -1,0 +1,28 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: sut-ai-service-template
+  title: University AI Service Template
+  description: "Create a new Python-based AI service with RAG pre-configured."
+spec:
+  owner: infra-team
+  type: service
+
+  # This defines the "Steps" the user takes in the UI
+  parameters:
+    - title: Provide basic info
+      required:
+        - component_id
+      properties:
+        component_id:
+          title: Name
+          type: string
+          description: Unique name of the service
+
+  # This defines what the computer actually does (e.g., fetch a skeleton, publish to GitHub)
+  steps:
+    - id: log-message
+      name: Log Message
+      action: debug:log
+      input:
+        message: "Starting the engine for {{ parameters.component_id }}..."
