@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: university-ai-portal
+  description: "The primary web interface for students and faculty to access LLM services."
+  annotations:
+    github.com/project-slug: sut-org/ai-portal-ui
+    backstage.io/techdocs-ref: dir:.
+    # Integrates with your ArgoCD rollout
+    argocd/app-name: ai-portal-frontend
+spec:
+  type: website
+  lifecycle: production
+  owner: digital-department
+  system: ai-platform-core
