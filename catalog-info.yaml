@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-gateway-service
+  description: "Core gateway for the university AI platform, handling RAG and model routing."
+  annotations:
+    # Links to your existing infrastructure tools
+    backstage.io/managed-by-location: url:https://github.com/your-org/ai-platform/blob/main/catalog-info.yaml
+    github.com/project-slug: your-org/ai-gateway
+    argocd/app-name: ai-gateway-prod
+spec:
+  type: service
+  lifecycle: experimental
+  owner: infra-team
+  system: ai-platform-core
+  providesApis:
+    - ai-inference-api
