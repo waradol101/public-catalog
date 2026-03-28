@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sut-ai-test-service
+  description: "A test service to verify the Backstage and Argo CD integration."
+  annotations:
+    # This is the "Magic Link" - it must match your Argo CD App Name exactly
+    argocd/app-name: the-test
+    github.com/project-slug: waradol101/public-catalog
+spec:
+  type: service
+  lifecycle: experimental
+  owner: infra-team
+  system: ai-platform-core
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ai-platform-core
+  description: "The university's core AI and Infrastructure ecosystem."
+spec:
+  owner: infra-team
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: infra-team
+  description: "The SUT Infrastructure and Platform Engineering team."
+spec:
+  type: team
+  children: []
